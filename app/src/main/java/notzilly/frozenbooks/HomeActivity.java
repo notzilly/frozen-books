@@ -31,6 +31,26 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
+    private BottomNavigationView.OnNavigationItemReselectedListener mOnNavigationItemReselectedListener
+            = new BottomNavigationView.OnNavigationItemReselectedListener() {
+
+        @Override
+        public void onNavigationItemReselected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+                    return;
+                case R.id.navigation_scan:
+                    mTextMessage.setText(R.string.title_scan);
+                    return;
+                case R.id.navigation_notifications:
+                    mTextMessage.setText(R.string.title_notifications);
+                    return;
+            }
+            return;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setOnNavigationItemReselectedListener(mOnNavigationItemReselectedListener);
     }
 
 }
