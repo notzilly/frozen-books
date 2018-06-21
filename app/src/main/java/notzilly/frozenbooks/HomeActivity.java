@@ -58,11 +58,11 @@ public class HomeActivity extends AppCompatActivity {
     };
 
     private void buildFragList(){
-        HomeFragment homeFrag = HomeFragment.newInstance("default string 1");
+        HomeFragment homeFrag = HomeFragment.newInstance();
         fragments.add(homeFrag);
-        HomeFragment homeFrag1 = HomeFragment.newInstance("default string 2");
+        HomeFragment homeFrag1 = HomeFragment.newInstance();
         fragments.add(homeFrag1);
-        HomeFragment homeFrag2 = HomeFragment.newInstance("default string 3");
+        HomeFragment homeFrag2 = HomeFragment.newInstance();
         fragments.add(homeFrag2);
     }
 
