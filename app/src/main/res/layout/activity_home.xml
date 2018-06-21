@@ -20,7 +20,7 @@
         android:layout_gravity="bottom"
         app:itemTextColor="@drawable/selector_bottombar_item"
         app:itemIconTint="@drawable/selector_bottombar_item"
-        app:itemBackground="@color/colorPrimary"
+        app:itemBackground="@android:color/white"
         app:menu="@menu/navigation" />
 
 </FrameLayout>
