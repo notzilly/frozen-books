@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Frozen Books</string>
-    <string name="title_activity_home">Frozen Books</string>
+    <string name="title_activity_main">Frozen Books</string>
     <string name="title_home">Home</string>
     <string name="title_scan">Scanear</string>
     <string name="title_notifications">Notifications</string>

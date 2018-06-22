@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     // 3 fragments that will appear in bottom navigation bar
     private ArrayList<Fragment> fragments = new ArrayList<>(3);
@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_main);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
