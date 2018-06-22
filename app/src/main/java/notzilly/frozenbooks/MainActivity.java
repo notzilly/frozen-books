@@ -15,8 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Fragment> fragments = new ArrayList<>(3);
 
     // TODO: tag names
-    private static final String TAG_FRAGMENT_HOME1 = "tag_frag_home1";
-    private static final String TAG_FRAGMENT_HOME2 = "tag_frag_home2";
+    private static final String TAG_FRAGMENT_HOME = "tag_frag_home";
+    private static final String TAG_FRAGMENT_SCANNER = "tag_frag_scanner";
     private static final String TAG_FRAGMENT_HOME3 = "tag_frag_home3";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    switchFragment(0, TAG_FRAGMENT_HOME1);
+                    switchFragment(0, TAG_FRAGMENT_HOME);
                     return true;
                 case R.id.navigation_scan:
-                    switchFragment(1, TAG_FRAGMENT_HOME2);
+                    switchFragment(1, TAG_FRAGMENT_SCANNER);
                     return true;
                 case R.id.navigation_notifications:
                     switchFragment(2, TAG_FRAGMENT_HOME3);
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private void buildFragList(){
         HomeFragment homeFrag = HomeFragment.newInstance();
         fragments.add(homeFrag);
-        HomeFragment homeFrag1 = HomeFragment.newInstance();
-        fragments.add(homeFrag1);
+        ScanFragment scanFrag = ScanFragment.newInstance();
+        fragments.add(scanFrag);
         HomeFragment homeFrag2 = HomeFragment.newInstance();
         fragments.add(homeFrag2);
     }
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemReselectedListener(mOnNavigationItemReselectedListener);
 
         buildFragList();
-        switchFragment(0, TAG_FRAGMENT_HOME1);
+        switchFragment(0, TAG_FRAGMENT_HOME);
     }
 
 }
