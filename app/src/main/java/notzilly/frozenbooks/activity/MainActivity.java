@@ -1,4 +1,4 @@
-package notzilly.frozenbooks;
+package notzilly.frozenbooks.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+
+import notzilly.frozenbooks.R;
+import notzilly.frozenbooks.fragment.HomeFragment;
+import notzilly.frozenbooks.fragment.ScanFragment;
 
 public class MainActivity extends AppCompatActivity {
 

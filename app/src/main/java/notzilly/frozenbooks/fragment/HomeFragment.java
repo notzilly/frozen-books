@@ -1,4 +1,4 @@
-package notzilly.frozenbooks;
+package notzilly.frozenbooks.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,14 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ScanFragment extends Fragment {
+import notzilly.frozenbooks.R;
+
+public class HomeFragment extends Fragment {
 
     // Required empty public constructor
-    public ScanFragment() {}
+    public HomeFragment() {}
 
-    // Factory of ScanFragment
-    public static ScanFragment newInstance() {
-        ScanFragment fragment = new ScanFragment();
+    // Factory of HomeFragment
+    public static HomeFragment newInstance() {
+        HomeFragment fragment = new HomeFragment();
         return fragment;
     }
 
@@ -24,8 +26,10 @@ public class ScanFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scan, container, false);
+        return rootView;
     }
 
     @Override
