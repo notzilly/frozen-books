@@ -8,4 +8,5 @@
         final da disciplina de Sistemas de Computação Móvel e tem por objetivo fornecer
         informações sobre livros que estão nas geladeirotecas cadastradas, bem como controlar as
         entradas e saídas dos mesmos. Clique em \'Scanear\' na barra inferior para começar.</string>
+    <string name="open_scanner_button">Scanear QR CODE</string>
 </resources>
