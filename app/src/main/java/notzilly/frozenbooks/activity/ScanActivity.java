@@ -7,9 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.CameraSource;
@@ -32,7 +35,23 @@ public class ScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
 
         cameraPreview = (SurfaceView) findViewById(R.id.camera_preview);
+        checkCameraPermission();
         createCameraSource();
+    }
+
+    private void checkCameraPermission() {
+        if (ActivityCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Requests permission to access camera
+            ActivityCompat.requestPermissions(ScanActivity.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    PERMISSION_REQUEST_CAMERA);
+
+        } else {
+            cameraPreview.setVisibility(View.VISIBLE);
+        }
+        return;
     }
 
     @Override
@@ -44,8 +63,14 @@ public class ScanActivity extends AppCompatActivity {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    Toast.makeText(getApplicationContext(), "Permissão concedida", Toast.LENGTH_SHORT).show();
+                    cameraPreview.setVisibility(View.VISIBLE);
 
                 } else {
+
+                    Intent intent = new Intent();
+                    setResult(CommonStatusCodes.CANCELED, intent);
+                    finish();
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -59,7 +84,9 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     private void createCameraSource() {
-        BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this).build();
+        BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
+                .setBarcodeFormats(Barcode.QR_CODE)
+                .build();
         final CameraSource cameraSource = new CameraSource.Builder(this, barcodeDetector)
                 .setAutoFocusEnabled(true)
                 .setRequestedPreviewSize(1600, 1024)
@@ -68,20 +95,11 @@ public class ScanActivity extends AppCompatActivity {
         cameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                if (ActivityCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-                    // Requests permission to access camera
-                    ActivityCompat.requestPermissions(ScanActivity.this,
-                            new String[]{Manifest.permission.CAMERA},
-                            PERMISSION_REQUEST_CAMERA);
-
-                    return;
-                } else {
-                    try {
-                        cameraSource.start(cameraPreview.getHolder());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Toast.makeText(getApplicationContext(), "Abrindo scanner", Toast.LENGTH_SHORT).show();
+                    cameraSource.start(cameraPreview.getHolder());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
 

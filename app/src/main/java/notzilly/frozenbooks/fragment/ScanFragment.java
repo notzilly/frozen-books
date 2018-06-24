@@ -68,9 +68,11 @@ public class ScanFragment extends Fragment implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 0) {
 
-            if(resultCode == CommonStatusCodes.SUCCESS && data != null) {
+            if (resultCode == CommonStatusCodes.SUCCESS && data != null) {
                 Barcode barcode = data.getParcelableExtra("barcode");
                 barcodeResult.setText(barcode.displayValue);
+            } else if(resultCode == CommonStatusCodes.CANCELED && data != null) {
+                barcodeResult.setText("permissão negada");
             } else {
                 barcodeResult.setText("no barcode found");
             }
