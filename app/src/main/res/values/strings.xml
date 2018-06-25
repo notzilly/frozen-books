@@ -3,10 +3,11 @@
     <string name="title_activity_main">Frozen Books</string>
     <string name="title_home">Home</string>
     <string name="title_scan">Scanear</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_list_freezers">Listar Todos</string>
     <string name="intro_home">Seja bem-vindo ao Frozen Books! Este app foi criado como projeto
         final da disciplina de Sistemas de Computação Móvel e tem por objetivo fornecer
         informações sobre livros que estão nas geladeirotecas cadastradas, bem como controlar as
-        entradas e saídas dos mesmos. Clique em \'Scanear\' na barra inferior para começar.</string>
+        entradas e saídas dos mesmos. Clique em \'Listar Todos\' ou \'Scanear\' na barra
+        inferior para começar.</string>
     <string name="open_scanner_button">Scanear QR CODE</string>
 </resources>

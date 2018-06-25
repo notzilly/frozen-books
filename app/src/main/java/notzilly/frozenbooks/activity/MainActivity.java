@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
     // 3 fragments that will appear in bottom navigation bar
     private ArrayList<Fragment> fragments = new ArrayList<>(3);
 
-    // TODO: tag names
+    // Tag names for our 3 fragments
     private static final String TAG_FRAGMENT_HOME = "tag_frag_home";
     private static final String TAG_FRAGMENT_SCANNER = "tag_frag_scanner";
-    private static final String TAG_FRAGMENT_HOME3 = "tag_frag_home3";
+    private static final String TAG_FRAGMENT_LIST_FREEZERS = "tag_frag_list_freezer";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_scan:
                     switchFragment(1, TAG_FRAGMENT_SCANNER);
                     return true;
-                case R.id.navigation_notifications:
-                    switchFragment(2, TAG_FRAGMENT_HOME3);
+                case R.id.navigation_list_freezers:
+                    switchFragment(2, TAG_FRAGMENT_LIST_FREEZERS);
                     return true;
             }
             return false;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 case R.id.navigation_scan:
                     return;
-                case R.id.navigation_notifications:
+                case R.id.navigation_list_freezers:
                     return;
             }
             return;
