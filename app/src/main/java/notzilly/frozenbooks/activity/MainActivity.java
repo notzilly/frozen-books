@@ -1,21 +1,20 @@
 package notzilly.frozenbooks.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import notzilly.frozenbooks.R;
 import notzilly.frozenbooks.fragment.HomeFragment;
@@ -26,14 +25,15 @@ public class MainActivity extends AppCompatActivity {
     // 3 fragments that will appear in bottom navigation bar
     private ArrayList<Fragment> fragments = new ArrayList<>(3);
 
-    // Sign in code
-    private static final int RC_SIGN_IN = 123;
+    // Firebase authentication
+    private FirebaseAuth mAuth;
 
     // Tag names for our 3 fragments
     private static final String TAG_FRAGMENT_HOME = "tag_frag_home";
     private static final String TAG_FRAGMENT_SCANNER = "tag_frag_scanner";
     private static final String TAG_FRAGMENT_LIST_FREEZERS = "tag_frag_list_freezer";
 
+    // Switches fragments whenever the user clicks on BottomNavigationView's buttons
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // Builds fragment list with different fragments
     private void buildFragList(){
         HomeFragment homeFrag = HomeFragment.newInstance();
         fragments.add(homeFrag);
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(homeFrag2);
     }
 
-    // tag used in FragmentManager#findFragmentByTag(String)
+    // Replaces fragment currently displayed
     private void switchFragment(int pos, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -89,21 +90,32 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    // Tries to login user
-    private void loginRequest() {
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.EmailBuilder().build());
+    // Tries to login user anonymously
+    private void anonymousLoginRequest() {
+        // Fetches current user
+        FirebaseUser user = mAuth.getCurrentUser();
 
-        // Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
-
+        if(user != null) {
+            // If user is logged, display welcome back toast
+            Toast.makeText(this, "Bem-vindo de volta!", Toast.LENGTH_SHORT).show();
+        } else {
+            // Tries to sign in user anonymously
+            mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success
+                            Toast.makeText(MainActivity.this, "Bem-vindo, novo usuário!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(MainActivity.this, "Não foi possível logar",
+                                Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+                });
+        }
     }
 
 
@@ -112,35 +124,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mAuth = FirebaseAuth.getInstance();
+        anonymousLoginRequest();
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setOnNavigationItemReselectedListener(mOnNavigationItemReselectedListener);
 
         buildFragList();
         switchFragment(0, TAG_FRAGMENT_HOME);
-
-        loginRequest();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                // ...
-            } else {
-
-                finish();
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-            }
-        }
-    }
 }
