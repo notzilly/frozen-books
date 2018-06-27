@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
-                        .setIsSmartLockEnabled(false)
                         .build(),
                 RC_SIGN_IN);
 
@@ -136,11 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             } else {
 
-                if (response == null) {
-                    // User pressed back button
-                    finish();
-
-                }
+                finish();
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
