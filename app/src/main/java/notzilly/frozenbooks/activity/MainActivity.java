@@ -1,5 +1,6 @@
 package notzilly.frozenbooks.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,7 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import notzilly.frozenbooks.R;
 import notzilly.frozenbooks.fragment.HomeFragment;
@@ -17,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     // 3 fragments that will appear in bottom navigation bar
     private ArrayList<Fragment> fragments = new ArrayList<>(3);
+
+    // Sign in code
+    private static final int RC_SIGN_IN = 123;
 
     // Tag names for our 3 fragments
     private static final String TAG_FRAGMENT_HOME = "tag_frag_home";
@@ -78,6 +89,25 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    // Tries to login user
+    private void loginRequest() {
+        // Choose authentication providers
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.GoogleBuilder().build(),
+                new AuthUI.IdpConfig.EmailBuilder().build());
+
+        // Create and launch sign-in intent
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .setIsSmartLockEnabled(false)
+                        .build(),
+                RC_SIGN_IN);
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +119,33 @@ public class MainActivity extends AppCompatActivity {
 
         buildFragList();
         switchFragment(0, TAG_FRAGMENT_HOME);
+
+        loginRequest();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                // ...
+            } else {
+
+                if (response == null) {
+                    // User pressed back button
+                    finish();
+
+                }
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+            }
+        }
+    }
 }
