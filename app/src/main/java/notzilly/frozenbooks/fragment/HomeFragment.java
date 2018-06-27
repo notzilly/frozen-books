@@ -1,16 +1,23 @@
 package notzilly.frozenbooks.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import notzilly.frozenbooks.R;
+import notzilly.frozenbooks.activity.MainActivity;
 
-public class HomeFragment extends Fragment {
-
+public class HomeFragment extends Fragment implements View.OnClickListener {
     // Required empty public constructor
     public HomeFragment() {}
 
@@ -21,15 +28,32 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onClick(View v) {
+        AuthUI.getInstance()
+            .signOut(getActivity())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // user is now signed out
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
+                    }
+                });
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
         // Inflate the layout for this fragment
-        return rootView;
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Gets button that logs out and adds onClickListener
+        Button logout = (Button) v.findViewById(R.id.logout);
+        logout.setOnClickListener(this);
+
+        return v;
     }
 
     @Override
