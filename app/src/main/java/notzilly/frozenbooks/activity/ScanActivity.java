@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -26,7 +25,10 @@ import notzilly.frozenbooks.R;
 
 public class ScanActivity extends AppCompatActivity {
 
+    // Camera preview
     private SurfaceView cameraPreview;
+
+    // Permission code for camera request
     private static final int PERMISSION_REQUEST_CAMERA = 1;
 
     @Override
@@ -39,19 +41,19 @@ public class ScanActivity extends AppCompatActivity {
         createCameraSource();
     }
 
+    // Checks if the app has permission to use the camera
     private void checkCameraPermission() {
         if (ActivityCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Requests permission to access camera
+            != PackageManager.PERMISSION_GRANTED) {
+            // App doesn't have permission
+            // Request permission to access camera
             ActivityCompat.requestPermissions(ScanActivity.this,
-                    new String[]{Manifest.permission.CAMERA},
-                    PERMISSION_REQUEST_CAMERA);
-
+                new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
         } else {
+            // We have permission
+            // Now we can open the camera
             cameraPreview.setVisibility(View.VISIBLE);
         }
-        return;
     }
 
     @Override
@@ -59,21 +61,19 @@ public class ScanActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                    Toast.makeText(getApplicationContext(), "Permissão concedida", Toast.LENGTH_SHORT).show();
+                if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission was granted
+                    // Open the camera
+                    Toast.makeText(getApplicationContext(), "Permissão concedida",
+                        Toast.LENGTH_SHORT).show();
                     cameraPreview.setVisibility(View.VISIBLE);
-
                 } else {
-
+                    // Permission denied
+                    // Exiting scanner
                     Intent intent = new Intent();
                     setResult(CommonStatusCodes.CANCELED, intent);
                     finish();
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
                 return;
             }
@@ -83,6 +83,7 @@ public class ScanActivity extends AppCompatActivity {
         }
     }
 
+    // Creates camera source, barcode detector and callbacks needed
     private void createCameraSource() {
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE)
@@ -104,21 +105,15 @@ public class ScanActivity extends AppCompatActivity {
             }
 
             @Override
-            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
-            }
+            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {}
 
             @Override
-            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-                cameraSource.stop();
-            }
+            public void surfaceDestroyed(SurfaceHolder surfaceHolder) { cameraSource.stop(); }
         });
 
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
-            public void release() {
-
-            }
+            public void release() {}
 
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
