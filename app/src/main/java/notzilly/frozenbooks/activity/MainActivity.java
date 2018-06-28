@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import notzilly.frozenbooks.R;
 import notzilly.frozenbooks.fragment.HomeFragment;
+import notzilly.frozenbooks.fragment.ListFreezersFragment;
 import notzilly.frozenbooks.fragment.ScanFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -78,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(homeFrag);
         ScanFragment scanFrag = ScanFragment.newInstance();
         fragments.add(scanFrag);
-        HomeFragment homeFrag2 = HomeFragment.newInstance();
-        fragments.add(homeFrag2);
+        ListFreezersFragment listFreezersFrag = ListFreezersFragment.newInstance();
+        fragments.add(listFreezersFrag);
     }
 
     // Replaces fragment currently displayed
