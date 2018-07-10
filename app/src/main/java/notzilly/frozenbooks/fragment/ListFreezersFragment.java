@@ -1,5 +1,6 @@
 package notzilly.frozenbooks.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import notzilly.frozenbooks.R;
+import notzilly.frozenbooks.activity.FreezerDetailActivity;
 import notzilly.frozenbooks.model.Freezer;
 import notzilly.frozenbooks.viewholder.FreezerViewHolder;
 
@@ -87,15 +88,14 @@ public class ListFreezersFragment extends Fragment {
                 final DatabaseReference freezerRef = getRef(position);
 
                 // Set click listener for the whole freezer view
-//                final String freezerKey = freezerRef.getKey();
+                final String freezerKey = freezerRef.getKey();
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Launch PostDetailActivity
-                        Toast.makeText(getActivity(), "testing onclick", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(getActivity(), FreezerDetailActivity.class);
-//                        intent.putExtra(FreezerDetailActivity.EXTRA_POST_KEY, postKey);
-//                        startActivity(intent);
+                        // Launch FreezerDetailActivity
+                        Intent intent = new Intent(getActivity(), FreezerDetailActivity.class);
+                        intent.putExtra(FreezerDetailActivity.EXTRA_FREEZER_KEY, freezerKey);
+                        startActivity(intent);
                     }
                 });
                 holder.bindToFreezer(model);
