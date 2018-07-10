@@ -88,7 +88,15 @@ public class FreezerDetailActivity extends AppCompatActivity {
 
         this.freezerListener = freezerListener;
 
-
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // Remove freezer value event listener
+        if(freezerListener != null) {
+            freezerRef.removeEventListener(freezerListener);
+        }
+    }
 }
