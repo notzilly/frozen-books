@@ -1,7 +1,9 @@
 package notzilly.frozenbooks.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,6 +63,8 @@ public class ListFreezersFragment extends Fragment {
         manager.setStackFromEnd(true);
         recycler.setLayoutManager(manager);
 
+        DividerItemDecoration itemDecor = new DividerItemDecoration(recycler.getContext(), manager.getOrientation());
+        recycler.addItemDecoration(itemDecor);
 
         // Set up FirebaseRecyclerAdapter with the Query
         Query freezersQuery = getQuery(db);
@@ -71,8 +75,15 @@ public class ListFreezersFragment extends Fragment {
 
         adapter = new FirebaseRecyclerAdapter<Freezer, FreezerViewHolder>(options) {
 
+            @NonNull
             @Override
-            protected void onBindViewHolder(FreezerViewHolder holder, int position, final Freezer model) {
+            public FreezerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+                return new FreezerViewHolder(inflater.inflate(R.layout.item_freezer, viewGroup, false));
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull FreezerViewHolder holder, int position, @NonNull Freezer model) {
                 final DatabaseReference freezerRef = getRef(position);
 
                 // Set click listener for the whole freezer view
@@ -87,15 +98,7 @@ public class ListFreezersFragment extends Fragment {
 //                        startActivity(intent);
                     }
                 });
-
                 holder.bindToFreezer(model);
-
-            }
-
-            @Override
-            public FreezerViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                return new FreezerViewHolder(inflater.inflate(R.layout.item_freezer, viewGroup, false));
             }
         };
         recycler.setAdapter(adapter);
