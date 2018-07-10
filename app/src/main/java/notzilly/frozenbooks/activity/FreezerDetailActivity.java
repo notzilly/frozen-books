@@ -30,7 +30,6 @@ public class FreezerDetailActivity extends AppCompatActivity {
     private RecyclerView booksRecycler;
     private ValueEventListener freezerListener;
 
-    private TextView qrStringView;
     private TextView addressView;
     private TextView bookQttView;
 
@@ -50,7 +49,6 @@ public class FreezerDetailActivity extends AppCompatActivity {
                 .child("freezers").child(freezerKey);
 
         // Initialize Views
-        qrStringView = findViewById(R.id.freezer_qrstring);
         addressView = findViewById(R.id.freezer_address);
         bookQttView = findViewById(R.id.freezer_book_amount);
 
@@ -69,7 +67,6 @@ public class FreezerDetailActivity extends AppCompatActivity {
                 // Get Freezer object and use the values to update the UI
                 Freezer freezer = dataSnapshot.getValue(Freezer.class);
 
-                qrStringView.setText(freezer.getQrString());
                 addressView.setText(freezer.getAddress());
                 bookQttView.setText(String.valueOf(freezer.getBookQtt()));
             }
