@@ -7,10 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import notzilly.frozenbooks.R;
 import notzilly.frozenbooks.model.Freezer;
@@ -19,7 +22,7 @@ import notzilly.frozenbooks.viewholder.FreezerViewHolder;
 public class ListFreezersFragment extends Fragment {
 
     private DatabaseReference db;
-    private FirebaseRecyclerAdapter<Freezer, FreezerViewHolder> fbAdapter;
+    private FirebaseRecyclerAdapter<Freezer, FreezerViewHolder> adapter;
     private RecyclerView recycler;
     private LinearLayoutManager manager;
 
@@ -52,6 +55,70 @@ public class ListFreezersFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // Setting up manager
+        manager = new LinearLayoutManager(getActivity());
+        manager.setReverseLayout(true);
+        manager.setStackFromEnd(true);
+        recycler.setLayoutManager(manager);
 
+
+        // Set up FirebaseRecyclerAdapter with the Query
+        Query freezersQuery = getQuery(db);
+
+        FirebaseRecyclerOptions options = new FirebaseRecyclerOptions.Builder<Freezer>()
+                .setQuery(freezersQuery, Freezer.class)
+                .build();
+
+        adapter = new FirebaseRecyclerAdapter<Freezer, FreezerViewHolder>(options) {
+
+            @Override
+            protected void onBindViewHolder(FreezerViewHolder holder, int position, final Freezer model) {
+                final DatabaseReference freezerRef = getRef(position);
+
+                // Set click listener for the whole freezer view
+//                final String freezerKey = freezerRef.getKey();
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Launch PostDetailActivity
+                        Toast.makeText(getActivity(), "testing onclick", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(getActivity(), FreezerDetailActivity.class);
+//                        intent.putExtra(FreezerDetailActivity.EXTRA_POST_KEY, postKey);
+//                        startActivity(intent);
+                    }
+                });
+
+                holder.bindToFreezer(model);
+
+            }
+
+            @Override
+            public FreezerViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+                return new FreezerViewHolder(inflater.inflate(R.layout.item_freezer, viewGroup, false));
+            }
+        };
+        recycler.setAdapter(adapter);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (adapter != null) {
+            adapter.startListening();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+    }
+
+    public Query getQuery(DatabaseReference db){
+        return db.child("freezers");
+    }
+
 }

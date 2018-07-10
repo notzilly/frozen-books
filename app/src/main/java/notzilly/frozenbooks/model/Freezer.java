@@ -1,27 +1,32 @@
 package notzilly.frozenbooks.model;
 
-import java.util.List;
+import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@IgnoreExtraProperties
 public class Freezer {
-    private String id;
+    private String qrString;
     private String address;
     private int bookQtt;
-    private List<Book> books;
+    private Map<String, Boolean> books = new HashMap<>();
 
+    public Freezer() {}
 
-    public Freezer(String id, String address, int bookQtt, List<Book> books) {
-        this.id = id;
+    public Freezer(String qrString, String address, int bookQtt, Map<String, Boolean> books) {
+        this.qrString = qrString;
         this.address = address;
         this.bookQtt = bookQtt;
         this.books = books;
     }
 
-    public String getId() {
-        return id;
+    public String getQrString() {
+        return qrString;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setQrString(String qrString) {
+        this.qrString = qrString;
     }
 
     public String getAddress() {
@@ -40,11 +45,11 @@ public class Freezer {
         this.bookQtt = bookQtt;
     }
 
-    public List<Book> getBooks() {
+    public Map<String, Boolean> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Map<String, Boolean> books) {
         this.books = books;
     }
 }

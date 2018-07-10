@@ -21,6 +21,6 @@ public class FreezerViewHolder extends RecyclerView.ViewHolder {
 
     public void bindToFreezer(Freezer freezer) {
         freezerAddress.setText(freezer.getAddress());
-        freezerBookAmount.setText(freezer.getBookQtt());
+        freezerBookAmount.setText(String.valueOf(freezer.getBookQtt()));
     }
 }
