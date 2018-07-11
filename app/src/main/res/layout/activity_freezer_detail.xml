@@ -48,11 +48,15 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_books"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/freezer_book_amount"
         tools:listitem="@layout/item_book" />
 
 </LinearLayout>

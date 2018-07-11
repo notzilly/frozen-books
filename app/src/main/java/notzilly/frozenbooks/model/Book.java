@@ -1,7 +1,10 @@
 package notzilly.frozenbooks.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.List;
 
+@IgnoreExtraProperties
 public class Book {
     private String id;
     private String description;
@@ -11,6 +14,8 @@ public class Book {
     private String subtitle;
     private String title;
     private List<String> authors;
+
+    public Book() {}
 
     public Book(String id, String description, String publisher, String isbn, int pageNumber, String subtitle, String title, List<String> authors) {
         this.id = id;

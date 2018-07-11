@@ -121,7 +121,7 @@ public class ListFreezersFragment extends Fragment {
     }
 
     public Query getQuery(DatabaseReference db){
-        return db.child("freezers");
+        return db.child("freezers").orderByChild("address");
     }
 
 }

@@ -9,8 +9,8 @@ import notzilly.frozenbooks.model.Freezer;
 
 public class FreezerViewHolder extends RecyclerView.ViewHolder {
 
-    TextView freezerAddress;
-    TextView freezerBookAmount;
+    private TextView freezerAddress;
+    private TextView freezerBookAmount;
 
     public FreezerViewHolder(View itemView) {
         super(itemView);
