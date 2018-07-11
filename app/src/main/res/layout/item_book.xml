@@ -7,9 +7,19 @@
 
     <TextView
         android:id="@+id/book_title"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="4dp"
-        android:textSize="@dimen/list_text_size" />
+        android:textSize="12dp" />
+
+    <ToggleButton
+        android:id="@+id/book_action"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checked="true"
+        android:textOff="Devolver"
+        android:textOn="Retirar" />
+
 
 </LinearLayout>

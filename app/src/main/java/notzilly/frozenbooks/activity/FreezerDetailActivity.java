@@ -13,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,8 @@ public class FreezerDetailActivity extends AppCompatActivity {
     private static final String TAG = "FreezerDetailActivity";
 
     public static final String EXTRA_FREEZER_KEY = "freezer_key";
+
+    private DatabaseReference rootRef;
 
     private String freezerKey;
     private DatabaseReference freezerRef;
@@ -58,6 +62,7 @@ public class FreezerDetailActivity extends AppCompatActivity {
         }
 
         // Initialize Database
+        rootRef = FirebaseDatabase.getInstance().getReference();
         freezerRef = FirebaseDatabase.getInstance().getReference()
                 .child("freezers").child(freezerKey);
         booksRef = FirebaseDatabase.getInstance().getReference()
@@ -94,7 +99,7 @@ public class FreezerDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull BookViewHolder holder, int position, @NonNull Book model) {
+            protected void onBindViewHolder(@NonNull final BookViewHolder holder, int position, @NonNull final Book model) {
                 final DatabaseReference bookRef = getRef(position);
 
                 // Set click listener for the whole book view
@@ -108,10 +113,62 @@ public class FreezerDetailActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-                holder.bindToBook(model);
+
+                // If user already has that book, update button state
+                rootRef.child("books-users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(bookKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Boolean bool = dataSnapshot.getValue(Boolean.class);
+                        Boolean buttonState;
+                        if(bool == null){
+                            buttonState = true;
+                        } else {
+                            buttonState = false;
+                        }
+
+                        holder.bindToBook(model, buttonState, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View bookView) {
+                                ToggleButton button = bookView.findViewById(R.id.book_action);
+                                DatabaseReference booksUsersRef = rootRef.child("books-users")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .child(bookKey);
+
+                                // Removes or adds book depending on button state
+                                if(button.isChecked()){
+                                    button.setChecked(true);
+                                    onBookButtonClicked(booksUsersRef, true);
+                                } else {
+                                    button.setChecked(false);
+                                    onBookButtonClicked(booksUsersRef, false);
+                                }
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Getting user books failed, log a message
+                        Log.w(TAG, "loadUserBooks:onCancelled", databaseError.toException());
+
+                        Toast.makeText(FreezerDetailActivity.this, "Não foi possível carregar o estado do livro.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         };
         booksRecycler.setAdapter(bookAdapter);
+    }
+
+    private void onBookButtonClicked(DatabaseReference db, Boolean remove) {
+        if(remove){
+            db.setValue(null);
+        } else {
+            db.setValue(true);
+        }
     }
 
     @Override
