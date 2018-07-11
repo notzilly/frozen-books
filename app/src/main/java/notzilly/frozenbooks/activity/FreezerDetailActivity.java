@@ -146,7 +146,7 @@ public class FreezerDetailActivity extends AppCompatActivity {
                 // Getting Freezer failed, log a message
                 Log.w(TAG, "loadFreezer:onCancelled", databaseError.toException());
 
-                Toast.makeText(FreezerDetailActivity.this, "Não foi possível carregar Geladeiroteca.",
+                Toast.makeText(FreezerDetailActivity.this, "Não foi possível carregar a geladeira.",
                         Toast.LENGTH_SHORT).show();
             }
         };
