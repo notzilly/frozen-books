@@ -7,26 +7,16 @@ import java.util.Map;
 
 @IgnoreExtraProperties
 public class Freezer {
-    private String qrString;
     private String address;
     private int bookQtt;
     private Map<String, Boolean> books = new HashMap<>();
 
     public Freezer() {}
 
-    public Freezer(String qrString, String address, int bookQtt, Map<String, Boolean> books) {
-        this.qrString = qrString;
+    public Freezer(String address, int bookQtt, Map<String, Boolean> books) {
         this.address = address;
         this.bookQtt = bookQtt;
         this.books = books;
-    }
-
-    public String getQrString() {
-        return qrString;
-    }
-
-    public void setQrString(String qrString) {
-        this.qrString = qrString;
     }
 
     public String getAddress() {
