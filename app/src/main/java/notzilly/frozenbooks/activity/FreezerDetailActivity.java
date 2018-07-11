@@ -1,5 +1,6 @@
 package notzilly.frozenbooks.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -124,8 +126,16 @@ public class FreezerDetailActivity extends AppCompatActivity {
                 // Get Freezer object and use the values to update the UI
                 Freezer freezer = dataSnapshot.getValue(Freezer.class);
 
-                addressView.setText(freezer.getAddress());
-                bookQttView.setText(String.valueOf(freezer.getBookQtt()));
+                // If freezer exists, populate view
+                if(freezer != null) {
+                    addressView.setText(freezer.getAddress());
+                    bookQttView.setText(String.valueOf(freezer.getBookQtt()));
+                } else {
+                    Intent intent = new Intent();
+                    setResult(CommonStatusCodes.ERROR, intent);
+                    finish();
+                }
+
             }
 
             @Override
