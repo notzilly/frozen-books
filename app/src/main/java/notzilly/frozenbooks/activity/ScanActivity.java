@@ -1,6 +1,7 @@
 package notzilly.frozenbooks.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -95,6 +96,7 @@ public class ScanActivity extends AppCompatActivity {
 
         cameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
+            @SuppressLint("MissingPermission")
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
                 try {
                     Toast.makeText(getApplicationContext(), "Abrindo scanner", Toast.LENGTH_SHORT).show();
