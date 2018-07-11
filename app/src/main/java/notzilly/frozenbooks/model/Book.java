@@ -6,7 +6,6 @@ import java.util.List;
 
 @IgnoreExtraProperties
 public class Book {
-    private String id;
     private String description;
     private String publisher;
     private String isbn;
@@ -17,8 +16,7 @@ public class Book {
 
     public Book() {}
 
-    public Book(String id, String description, String publisher, String isbn, int pageNumber, String subtitle, String title, List<String> authors) {
-        this.id = id;
+    public Book(String description, String publisher, String isbn, int pageNumber, String subtitle, String title, List<String> authors) {
         this.description = description;
         this.publisher = publisher;
         this.isbn = isbn;
@@ -26,14 +24,6 @@ public class Book {
         this.subtitle = subtitle;
         this.title = title;
         this.authors = authors;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDescription() {
