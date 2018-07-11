@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +27,11 @@ public class BookDetailActivity extends AppCompatActivity {
     private ValueEventListener bookListener;
     private String bookKey;
 
+    private TextView bookTitle;
+    private TextView bookSubtitle;
+    private TextView bookPublisher;
+    private TextView bookDescription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +46,11 @@ public class BookDetailActivity extends AppCompatActivity {
         bookRef = FirebaseDatabase.getInstance().getReference()
                 .child("books").child(bookKey);
 
+        // Initialize Views
+        bookTitle = findViewById(R.id.book_title);
+        bookSubtitle = findViewById(R.id.book_subtitle);
+        bookPublisher = findViewById(R.id.book_publisher);
+        bookDescription = findViewById(R.id.book_description);
     }
 
     @Override
@@ -52,9 +64,14 @@ public class BookDetailActivity extends AppCompatActivity {
                 // Get Book object and use the values to update the UI
                 Book book = dataSnapshot.getValue(Book.class);
 
-                Toast.makeText(BookDetailActivity.this,
-                        "Livro: " + book.getTitle() + " " + book.getIsbn(),
-                        Toast.LENGTH_SHORT).show();
+                bookTitle.setText(book.getTitle());
+                bookPublisher.setText(book.getPublisher());
+                bookDescription.setText(book.getDescription());
+
+                if(!book.getSubtitle().isEmpty()){
+                    bookSubtitle.setText(book.getSubtitle());
+                    bookSubtitle.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
