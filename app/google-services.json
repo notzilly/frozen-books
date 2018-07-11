@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "362568288919",
+    "firebase_url": "https://frozen-books.firebaseio.com",
+    "project_id": "frozen-books",
+    "storage_bucket": "frozen-books.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362568288919:android:2775ac649e39f41a",
+        "android_client_info": {
+          "package_name": "notzilly.frozenbooks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "362568288919-jidd6frncb9qk2fjgee5q8o5l7pv00jl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "notzilly.frozenbooks",
+            "certificate_hash": "ec7587e20640e28f316311225216958ef07e5d1c"
+          }
+        },
+        {
+          "client_id": "362568288919-blbl4onb07kmkf0lv55bu37m345iupdb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeZsYdylVvMb3jvWQ-ylYcAHaYwzO7PdM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "362568288919-blbl4onb07kmkf0lv55bu37m345iupdb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
