@@ -29,6 +29,7 @@
         </activity>
         <activity android:name=".activity.ScanActivity" />
         <activity android:name=".activity.FreezerDetailActivity" />
+        <activity android:name=".activity.BookDetailActivity" />
     </application>
 
 </manifest>

@@ -95,14 +95,17 @@ public class FreezerDetailActivity extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(@NonNull BookViewHolder holder, int position, @NonNull Book model) {
-//                final DatabaseReference freezerRef = getRef(position);
+                final DatabaseReference bookRef = getRef(position);
 
-                // Set click listener for the whole freezer view
-//                final String freezerKey = freezerRef.getKey();
+                // Set click listener for the whole book view
+                final String bookKey = bookRef.getKey();
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       Toast.makeText(FreezerDetailActivity.this, "clicando no livro", Toast.LENGTH_SHORT).show();
+                        // Launch BookDetailActivity
+                        Intent intent = new Intent(FreezerDetailActivity.this, BookDetailActivity.class);
+                        intent.putExtra(BookDetailActivity.EXTRA_BOOK_KEY, bookKey);
+                        startActivity(intent);
                     }
                 });
                 holder.bindToBook(model);
