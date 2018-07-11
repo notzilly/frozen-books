@@ -10,4 +10,7 @@
         entradas e saídas dos mesmos. Clique em \'Geladeirotecas\' ou \'Scanear\' na barra
         inferior para começar.</string>
     <string name="open_scanner_button">Scanear QR CODE</string>
+    <string name="scan_instructions">O scanner lê um QR code de uma geladeiroteca cadastrada e,
+        em seguida, dispõe informações acerca da mesma. Pressione o botão abaixo para abrir
+        o scanner.</string>
 </resources>
